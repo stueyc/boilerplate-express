@@ -31,10 +31,21 @@ app.get('/now', (req, res, next) => {
   res.json({"time": req.time})
 })
 
+app.get('/:word/echo', (req, res) => {
+  res.json({"echo": req.params.word})
+})
 
+function nameHandler(req, res) {
+  if (req.query.first && req.query.last) {
+    res.json({"name": req.query.first + ' ' + req.query.last})
+  } else {
+    res.send("Missing one or more parameters")
+  }
+}
 
-
-
+app.route('/name')
+  .get((req, res) => nameHandler(req, res))
+  .post((req, res) => nameHandler(req, res))
 
 
 
