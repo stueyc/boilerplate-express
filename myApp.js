@@ -1,5 +1,6 @@
-var express = require('express');
-var app = express();
+var express = require('express')
+var bodyParser = require('body-parser')
+var app = express()
 
 console.log("Hello World")
 
@@ -9,6 +10,8 @@ app.use((req, res, next) => {
   console.log(req.method + ' ' + req.path + ' - ' + req.ip)
   next()
 })
+
+app.use(bodyParser.urlencoded({extended: false}))
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
@@ -45,7 +48,14 @@ function nameHandler(req, res) {
 
 app.route('/name')
   .get((req, res) => nameHandler(req, res))
-  .post((req, res) => nameHandler(req, res))
+  .post((req, res) => {
+    if (req.body.first && req.body.last) {
+      res.json({"name": req.body.first + ' ' + req.body.last})
+    } else {
+      res.send("Missing one or more fields")
+    }
+    
+  })
 
 
 
