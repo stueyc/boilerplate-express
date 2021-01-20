@@ -1,5 +1,4 @@
 var express = require('express')
-var bodyParser = require('body-parser')
 var app = express()
 
 console.log("Hello World")
@@ -7,11 +6,11 @@ console.log("Hello World")
 app.use(express.static(__dirname + '/public'))
 
 app.use((req, res, next) => {
-  console.log(req.method + ' ' + req.path + ' - ' + req.ip)
+  console.log(req.method + ' ' + req.path + ' - ' + req.body)
   next()
 })
 
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(express.urlencoded({extended: false}))
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
@@ -56,22 +55,6 @@ app.route('/name')
     }
     
   })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
